@@ -1,0 +1,19 @@
+name: "Install the OpenAPITools Generator CLI"
+description: "Installs the `openapi-generator-cli` to the command line to be used in subsequent steps."
+branding:
+  color: green
+
+inputs:
+  generator-tag:
+    description: The Docker tag of the openapitools/openapi-generator-cli image to use.
+    required: false
+    default: latest
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: |
+        echo docker run -u 1001 --rm --workdir /github/workspace -v "${{ github.workspace }}:/github/workspace" openapitools/openapi-generator-cli:${{ inputs.generator-tag }} ${{ '\$@' }} > ${{ github.action_path }}/openapi-generator-cli
+        chmod +x ${{ github.action_path }}/openapi-generator-cli
+        echo ${{ github.action_path }} >> $GITHUB_PATH

@@ -1,0 +1,29 @@
+name: Run Checks
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  smoke-test-url:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+      - run: openapi-generator-cli generate -g rust -c test_data/config.yml -i test_data/openapi.json -o rust-client
+      - run: cd rust-client
+  test-openapi-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        with:
+          generator-tag: v5.0.0
+      - run: openapi-generator-cli generate -g rust -c test_data/config.yml -i test_data/openapi.json -o rust-client
+      - run: cd rust-client
+  test-openapi-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+      - run: openapi-generator-cli validate -i test_data/openapi.json
