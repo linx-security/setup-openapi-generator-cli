@@ -28,7 +28,7 @@ jobs:
       # Use the action to generate a client package
       # This uses the default path for the openapi document and thus assumes there is an openapi.json in the current workspace.
       - name: Generate Angular Client
-        uses: ethan92429/setup-openapi-generator-cli@v1
+        uses: @linx-security/setup-openapi-generator-cli@v1
       - run: openapi-generator-cli -g typescript-angular -c angular-generator-config.yml
 
       # Do something with the generated client (likely publishing it somewhere)
